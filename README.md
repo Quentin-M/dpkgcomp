@@ -1,4 +1,4 @@
-# Debian-like package version number comparator (Go)
+# DpkgComp [![Coverage](http://gocover.io/_badge/github.com/quentin-m/dpkgcomp?0)](http://gocover.io/github.com/quentin-m/dpkgcomp) [![GoDoc](http://godoc.org/github.com/quentin-m/dpkgcomp?status.png)](http://godoc.org/github.com/quentin-m/dpkgcomp)
 
 ## About
 This Go library compares Debian-like package version numbers.
