@@ -7,81 +7,81 @@ import (
 
 //TODO Refactor me ... I do my job but stewpidly ...
 
-func TestCompare(t *testing.T) {
+func TestCompareV(t *testing.T) {
 	var a, b Version
 
 	// Test for blank version equality
 	a = Version{}
 	b = Version{}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Blank comparison failed")
 	}
 
 	// Preliminary tests
 	a = Version{Epoch: 1}
 	b = Version{Epoch: 2}
-	if cmp := Compare(a, b); cmp == 0 {
+	if cmp := CompareV(a, b); cmp == 0 {
 		t.Error("Epoch comparison failed")
 	}
 
 	a = Version{Epoch: 0, UpstreamVersion: "1", DebianRevision: "1"}
 	b = Version{Epoch: 2, UpstreamVersion: "2", DebianRevision: "1"}
-	if cmp := Compare(a, b); cmp == 0 {
+	if cmp := CompareV(a, b); cmp == 0 {
 		t.Error("UpstreamVersion comparison failed")
 	}
 
 	a = Version{Epoch: 0, UpstreamVersion: "1", DebianRevision: "1"}
 	b = Version{Epoch: 2, UpstreamVersion: "1", DebianRevision: "2"}
-	if cmp := Compare(a, b); cmp == 0 {
+	if cmp := CompareV(a, b); cmp == 0 {
 		t.Error("DebianRevision comparison failed")
 	}
 
 	// Test for version equality
 	a = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "0"}
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Equality comparison failed")
 	}
 
 	a = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "00"}
 	b = Version{Epoch: 0, UpstreamVersion: "00", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Equality comparison failed")
 	}
 
 	a = Version{Epoch: 1, UpstreamVersion: "2", DebianRevision: "3"}
 	b = Version{Epoch: 1, UpstreamVersion: "2", DebianRevision: "3"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Equality comparison failed")
 	}
 
 	// Test for epoch difference
 	a = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "0"}
 	b = Version{Epoch: 1, UpstreamVersion: "0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp > 0 {
+	if cmp := CompareV(a, b); cmp > 0 {
 		t.Error("Epoch comparison failed")
 	}
-	if cmp := Compare(b, a); cmp < 0 {
+	if cmp := CompareV(b, a); cmp < 0 {
 		t.Error("Epoch comparison failed")
 	}
 
 	// Test for UpstreamVersion component difference
 	a = Version{Epoch: 0, UpstreamVersion: "a", DebianRevision: "0"}
 	b = Version{Epoch: 0, UpstreamVersion: "b", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp > 0 {
+	if cmp := CompareV(a, b); cmp > 0 {
 		t.Error("UpstreamVersion comparison failed")
 	}
-	if cmp := Compare(b, a); cmp < 0 {
+	if cmp := CompareV(b, a); cmp < 0 {
 		t.Error("UpstreamVersion comparison failed")
 	}
 
 	// Test for DebianRevision component difference
 	a = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "a"}
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "b"}
-	if cmp := Compare(a, b); cmp > 0 {
+	if cmp := CompareV(a, b); cmp > 0 {
 		t.Error("DebianRevision comparison failed")
 	}
-	if cmp := Compare(b, a); cmp < 0 {
+	if cmp := CompareV(b, a); cmp < 0 {
 		t.Error("DebianRevision comparison failed")
 	}
 
@@ -96,114 +96,114 @@ func TestParse(t *testing.T) {
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: ""}
 
 	a, _ = StringToVersion("0")
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse blank failed")
 	}
 
 	a, _ = StringToVersion("0:0")
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse blank failed")
 	}
 
 	a, _ = StringToVersion("0:0-")
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse blank failed")
 	}
 
 	a, _ = StringToVersion("0:0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse blank failed")
 	}
 
 	a, _ = StringToVersion("0:0.0-0.0")
 	b = Version{Epoch: 0, UpstreamVersion: "0.0", DebianRevision: "0.0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse blank failed")
 	}
 
 	// Test epoched versions
 	a, _ = StringToVersion("1:0")
 	b = Version{Epoch: 1, UpstreamVersion: "0", DebianRevision: ""}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse epoched failed")
 	}
 
 	a, _ = StringToVersion("5:1")
 	b = Version{Epoch: 5, UpstreamVersion: "1", DebianRevision: ""}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse epoched failed")
 	}
 
 	// Test multiple hyphens
 	a, _ = StringToVersion("0:0-0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0-0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple hyphens failed")
 	}
 
 	a, _ = StringToVersion("0:0-0-0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0-0-0", DebianRevision: ""}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple hyphens failed")
 	}
 
 	// Test multiple colons
 	a, _ = StringToVersion("0:0:0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0:0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple colons failed")
 	}
 
 	a, _ = StringToVersion("0:0:0:0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0:0:0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple colons failed")
 	}
 
 	// Test multiple hyphens and colons
 	a, _ = StringToVersion("0:0:0-0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0:0-0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple hyphens and colons failed")
 	}
 
 	a, _ = StringToVersion("0:0-0:0-0")
 	b = Version{Epoch: 0, UpstreamVersion: "0-0:0", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse multiple hyphens and colons failed")
 	}
 
 	// Test valid characters in upstream version
 	a, _ = StringToVersion("0:09azAZ.-+~:-0")
 	b = Version{Epoch: 0, UpstreamVersion: "09azAZ.-+~:", DebianRevision: "0"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse valid characters in UpstreamVersion failed")
 	}
 
 	// Test valid characters in debian revision
 	a, _ = StringToVersion("0:0-azAZ09.+~")
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "azAZ09.+~"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse valid characters in DebianRevision failed")
 	}
 
 	// Test version with leading and trailing spaces
 	a, _ = StringToVersion("  	0:0-1")
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "1"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse with leading and trailing spaces failed")
 	}
 
 	a, _ = StringToVersion("0:0-1	  ")
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "1"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse with leading and trailing spaces failed")
 	}
 
 	a, _ = StringToVersion("	  0:0-1  	")
 	b = Version{Epoch: 0, UpstreamVersion: "0", DebianRevision: "1"}
-	if cmp := Compare(a, b); cmp != 0 {
+	if cmp := CompareV(a, b); cmp != 0 {
 		t.Error("Parse with leading and trailing spaces failed")
 	}
 
@@ -267,7 +267,7 @@ func TestParse(t *testing.T) {
 	}
 }
 
-func TestRealVersions(t *testing.T) {
+func TestCompare(t *testing.T) {
 	const LESS = -1
 	const EQUAL = 0
 	const GREATER = 1
@@ -352,26 +352,17 @@ func TestRealVersions(t *testing.T) {
 		{"1.002-1+b2", GREATER, "1.00"},                     // whatever...
 	}
 
-	var a, b Version
-	var cmp int
-	var err error
-
 	for _, c := range cases {
-		a, err = StringToVersion(c.v1)
-		if err != nil {
-			t.Error("Could not parse version:", c.v1, "(", err.Error(), ")")
-			continue
+		if cmp, err := Compare(c.v1, c.v2); cmp != c.expect {
+			t.Error("Comparison test failed:", c.v1, "vs.", c.v2, "=", cmp, "while we expected", c.expect, "( Error:", err, ")")
 		}
+	}
 
-		b, err = StringToVersion(c.v2)
-		if err != nil {
-			t.Error("Could not parse version:", c.v2, "(", err.Error(), ")")
-			continue
-		}
-
-		cmp = Compare(a, b)
-		if cmp != c.expect {
-			t.Error("Test real version failed:", c.v1, "vs.", c.v2, "=", cmp, "while we expected", c.expect)
-		}
+	// Test invalid versions
+	if _, err := Compare("%", "1"); err == nil {
+		t.Error("Invalid version comparison test failed")
+	}
+	if _, err := Compare("1", "."); err == nil {
+		t.Error("Invalid version comparison test failed")
 	}
 }
