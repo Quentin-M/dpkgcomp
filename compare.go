@@ -15,7 +15,7 @@ type Version struct {
 }
 
 var upstreamVersionAllowedSymbols = []rune{'.', '-', '+', '~', ':'}
-var debianRevisionAllowedSymbols = []rune{'.', '+', '~'}
+var debianRevisionAllowedSymbols = []rune{'.', '+', '~', '_'}
 
 // Compare function compares two Debian-like package version
 //

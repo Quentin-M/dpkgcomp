@@ -258,7 +258,7 @@ func TestParse(t *testing.T) {
 		t.Error("Parse with invalid characters in DebianRevision failed")
 	}
 
-	versym = []rune{'!', '#', '@', '$', '%', '&', '/', '|', '\\', '<', '>', '(', ')', '[', ']', '{', '}', ':', ';', ',', '_', '=', '*', '^', '\''}
+	versym = []rune{'!', '#', '@', '$', '%', '&', '/', '|', '\\', '<', '>', '(', ')', '[', ']', '{', '}', ':', ';', ',', '=', '*', '^', '\''}
 	for _, r := range versym {
 		verstr := strings.Join([]string{"0:0-", string(r)}, "")
 		if _, err = StringToVersion(verstr); err == nil {
